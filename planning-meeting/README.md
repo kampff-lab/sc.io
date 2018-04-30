@@ -16,7 +16,7 @@ First open neuroscience meeting:
 ### Structure:
  - Brief introduction by each participant, saying who they are, sharing experiences, methods, etc.
  - Short round-tables, discussion, on different parts of the scientific collaboration pipeline:
-   - Hosting and validating raw data (DOI, MD5 checksum)
+   - Hosting and validating raw data (DOI, MD5 checksum); torrenting raw data (lololol)
    - Reproducibility and provenance of analysis code and intermediate outputs (datasets, figures) - how do we track the who, what, when, where, how and why for scientific outputs
    - Strategies for reporting non-digital contributions (behavior annotations, surgeries, running animals, etc);
    - Can this pipeline be extended to other aspects of the scientific social infrastructure (e.g. facilities, administration, institutional culture, etc);
