@@ -1,6 +1,4 @@
-# Planning Meeting
-
-First open neuroscience meeting:  
+# First Open Neuroscience Meeting
 
  **Date:** 25th May 2018, 10h00  
  **Location:** SWC Brasserie, 5th Floor
