@@ -1,5 +1,5 @@
 ---
-André Marques-Smith
+title: André Marques-Smith
 ---
 
 | Accelerating research and progress by improving transparency and distributing collaboration. Rethinking scientific structures to incentivize healthy behaviour. |
