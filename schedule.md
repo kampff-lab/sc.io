@@ -52,7 +52,7 @@ Afterwards, everyone is welcome to SWC beer hour.
 
 Please use the template below for your short introduction. Replace the questions with your own answers as appropriate, but keep the vertical bars. The image is optional, and can be deleted if you don't need it.
 
-Email your slide text back to us, or submit your text file `HH-MM-name.md` (e.g. `10-05-glopes.md`) directly to this repository by creating a [GitHub](https://github.com/) account and [submitting a pull request](https://github.com/kampff-lab/sc.io/new/master).
+Email your slide text back to us, or submit your text file `_intro/HH-MM-name.md` (e.g. `_intro/10-05-glopes.md`) directly to this repository by creating a [GitHub](https://github.com/) account and [submitting a pull request](https://github.com/kampff-lab/sc.io/new/master).
 
 ```markdown
 ---
