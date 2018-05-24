@@ -1,6 +1,6 @@
 ---
 title: Gonçalo Lopes
-image: http://bonsai-rx.org/hackarnaval-2018/assets/images/bonsai-circle.svg
+image: https://goo.gl/fWdL4g
 ---
 
 | Programming languages, interactive data manipulation, teaching, history of science |
