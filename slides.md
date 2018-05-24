@@ -4,6 +4,14 @@ title: Slides
 permalink: /slides/
 ---
 
+<section>
+<h1>SC.IO</h1>
+<h2>Scientific Input-Output;<br/>Science-Open</h2>
+<a href="http://www.ucl.ac.uk/swc">
+  <img style="width:50%" class="plain" src="{{ site.baseurl }}/assets/images/swc.png">
+</a>
+</section>
+
 {% for slide in site.intro %}
 <section>
 <h3>{{ slide.title }}</h3>
