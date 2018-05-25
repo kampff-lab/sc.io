@@ -18,7 +18,13 @@ permalink: /slides/
 {% if slide.image %}
 <div style="width:100%">
   <div style="width:60%;float:left">{{ slide.content }}</div>
-  <div style="width:40%;float:right"><img src="{{ slide.image }}" /></div>
+  <div style="width:40%;float:right"><img src="
+{% if slide.image contains '://' %}
+{{slide.image}}
+{% else %}
+{{ slide.image | prepend: site.baseurl }}
+{% endif %}" />
+  </div>
 </div>
 {% else %}
 {{ slide.content }}
