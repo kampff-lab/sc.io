@@ -1,6 +1,6 @@
 ---
 title: Niccolò Bonacchi
-image: https://goo.gl/boFJdf
+image: /assets/images/data_pipeline.png
 ---
 
 | 10 Solving problems, figuring out how things work (mainly the brain), build new simple things that also work, and combine these new things to: Solve bigger problems, figure out how bigger things work, build new slightly more complicated things that also work, combine them to solve bigger...  |
