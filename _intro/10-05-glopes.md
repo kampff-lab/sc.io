@@ -1,6 +1,6 @@
 ---
 title: Gonçalo Lopes
-image: https://goo.gl/fWdL4g
+image: /assets/images/bonsai-circle.svg
 ---
 
 | Programming languages, interactive data manipulation, teaching, history of science |
