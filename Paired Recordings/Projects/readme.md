@@ -4,14 +4,13 @@ Paired recording datasets are conceptually very simple but can be used to tackle
 ## Goals
 Our first aim is to produce collaborative publications following up on the Marques-Smith et al (2018) preprint which mainly describes the dataset and methods used to collect it. These publications will focus on advancing analysis of extracellular recording datasets and developing strategies to exploit the massive amounts of data created by new generation CMOS probes, as well as new approaches enabled by their high channel count and density.
 
-Our second aim is to conduct an experiment in collaboration and publication. With our new paired recording dataset, we wanted to go beyond just sharing the dataset online, opting instead to organize a community of interested scientists around it and promoting synergy and collaboration. Neuroscience datasets are growing increasingly in size, complexity and dimensionality. The reason we are trying this approach is we strongly believe the only way we can deal with this deluge is to share data open and transparently for collaboration, leveraging world-wide expertise to solve difficult problems. GitHub is an excellent and time-tested platform for managing collaboration on complex projects involving a lot of people. Moreover, it tracks every person's contribution transparently and publicly, so people get credit for their work.
+Our second aim is to experiment with GitHub as a platform for transparent and credited scientific collaboration between scientists distributed all over the world. 
 
-## How can I contribute?
+## How do I contribute?
 **help, Goncalo!**
 
-
 ## What if I have my own idea?
-If you have an idea that isn't listed here, we would really like to hear about it. To pitch it, simply add a project to the list stating a title, providing a short description (see the examples of ongoing projects), and submitting this as a **pull request**. If you'd like to provide further context and info, email Andre at andrefmsmith@gmail.com. Based on the info you provide us, we can give you feedback whether the idea is feasible within the constraints of our dataset.
+If you have an idea that isn't listed here, we would really like to hear about it. To pitch it, simply add a project to the list stating a title, providing a short description (see the examples of ongoing projects), and submit this as a **pull request**. If you'd like to provide further context and info, email Andre at andrefmsmith@gmail.com. Based on the info you provide us, we can give you feedback whether the idea is feasible within the constraints of our dataset.
 
 The nice thing about submitting your project idea as a pull request is that **you** get public credit for your contribution.
 
