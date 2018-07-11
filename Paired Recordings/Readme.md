@@ -45,7 +45,26 @@ Each folder is titled "cxx' (cell xx), corresponds to a paired-recording and con
 - cxx_extracellular_spikes.npy   
 *Only for the 21 cells where an extracellular spike waveform could be detected. Neuropixel recording samples corresponding to the peak of extracellular spikes in the channel closest to patched cell's soma, numpy 1D array.*
 
-### Loading data
+### How to load data
+*Neuropixel*  
+Neuropixel recordings were saved into a 1D binary vector, from a matrix organised as 384 rows (channels) x n columns (samples). The data was written to file from this matrix in column-major (F) order, ie, the first sample in the recording was written to file for every channel, then the second sample was written for every channel, etc, etc. To load the data correctly you have to tell your software how it's organised and how to unpack it. The file titled cxx_expt_meta.csv provides the info you need for this.
+
+In Python, you could do:  
+```python 
+import numpy as np
+
+npx_path = 'full path to the downloaded cxx_npx_raw.bin file'
+npx_channels = 384
+
+npx_recording = np.memmap( npx_path, mode = 'c', dtype=np.int16, order = 'C')
+
+npx_samples = len(npx_recording)/npx_channels
+
+npx_recording = npx_recording.reshape((npx_channels, npx_samples), order = 'F')
+```
+which will result in a 2D array where channels are rows (384) and columns are samples.
+
+
 
 
 
