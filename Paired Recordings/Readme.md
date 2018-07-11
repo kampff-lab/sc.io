@@ -46,7 +46,7 @@ Each folder is titled "cxx' (cell xx), corresponds to a paired-recording and con
 *Only for the 21 cells where an extracellular spike waveform could be detected. Neuropixel recording samples corresponding to the peak of extracellular spikes in the channel closest to patched cell's soma, numpy 1D array.*
 
 ### How to load data
-*Neuropixel*  
+**Neuropixel**  
 Neuropixel recordings were saved into a 1D binary vector, from a matrix organised as 384 rows (channels) x n columns (samples). The data was written to file from this matrix in column-major (F) order, ie, the first sample in the recording was written to file for every channel, then the second sample was written for every channel, etc, etc. To load the data correctly you have to tell your software how it's organised and how to unpack it. The file titled cxx_expt_meta.csv provides the info you need for this.
 
 In Python, you could do:  
@@ -67,7 +67,7 @@ which will result in a 2D array where channels are rows (384) and columns are sa
 **Neuropixel raw data is provided as an int16 binary. [Neuropixel ADCs](https://github.com/cortex-lab/neuropixels/wiki/Gain_settings) are 10 bits, with a range of -0.6 to 0.6 V, and acquisition was at 500x gain, yielding a resolution of 2.34 µV/bit.  
 To obtain readings in µV, you should  multiply the int16 values by 2.34.** 
 
-*Patch-clamp*
+**Patch-clamp**  
 Patch-clamp data are already provided in float64 type and current (pA) or voltage (mV) units, depending if the recording was performed in voltage- or current-clamp.
 
 To load a patch-clamp recording in python, do:  
@@ -77,3 +77,16 @@ import numpy as np
 patch_path = 'full path to the downloaded cxx_patch_ch1.bin file'
 patch_recording = np.fromfile(patch_path, dtype='float64')
 ```
+
+### Time-base and sampling rate
+The Neuropixel and patch-clamp recordings provided are temporally-aligned. This was done by generating periodic digital pulses, which were recorded on the Neuropixel and patch-clamp sync channels (respectively, cxx_npx_sync.bin and cxx_patch_sync.bin).
+
+Sampling rate for acquisition was **different** for the two data streams. Refer to the preprint and metadata summary for more detail.
+
+To relate patch-clamp and extracellular events, you should obtain the conversion factor (m) that allows you to work out which sample number in Neuropixel corresponds to a sample number in patch-clamp and vice versa. As the two data streams are temporally-aligned, this is simply the ratio between the length (in samples) of the two recordings. In Python, you could do  
+
+```python  
+m = len(patch_recording)/float( len(npx_recording[0]))
+
+neuropixel_event = patch_sample / m
+patch_event = neuropixel_sample * m```
