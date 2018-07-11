@@ -4,7 +4,7 @@ Paired recording datasets are conceptually very simple but can be used to tackle
 ## Goals
 Our first aim is to produce collaborative publications following up on the Marques-Smith et al (2018) preprint which mainly describes the dataset and methods used to collect it. These publications will focus on advancing analysis of extracellular recording datasets and developing strategies to exploit the massive amounts of data created by new generation CMOS probes, as well as new approaches enabled by their high channel count and density.
 
-Our second aim is to experiment with GitHub as a platform for transparent and credited scientific collaboration between scientists distributed all over the world. 
+Our second aim is to experiment with GitHub as a platform for transparent and credited scientific collaboration between scientists distributed all over the world. GitHub provides an infrastructure that allows interested parties anywhere to work concertedly on the same problem, communicate and provide feedback on each other's ideas and be acknowledged clearly for their inputs with full transparency. We believe massively parallel, coordinated and transparent workflows such as this are essential for scientific progress when dealing with large, complex datasets.
 
 ## How do I contribute?
 **help, Goncalo!**
@@ -13,7 +13,6 @@ Our second aim is to experiment with GitHub as a platform for transparent and cr
 If you have an idea that isn't listed here, we would really like to hear about it. To pitch it, simply add a project to the list stating a title, providing a short description (see the examples of ongoing projects), and submit this as a **pull request**. If you'd like to provide further context and info, email Andre at andrefmsmith@gmail.com. Based on the info you provide us, we can give you feedback whether the idea is feasible within the constraints of our dataset.
 
 The nice thing about submitting your project idea as a pull request is that **you** get public credit for your contribution.
-
 
 ## Ongoing Projects
 
@@ -38,3 +37,6 @@ recordings.**
 
 **7. The human psychophysics of spike-sorting.**  
 *Every extracellular electrophysiologist has been in the situation where the whole lab is gathered around a computer screen debating whether to split or merge a potential unit. This familiar scenario highlights how complex the sorting process is, how much it depends on experience, and how different human operators rely on distinct strategies and features to make decisions on sorting. In the year 2000, an important paper by [Harris and colleagues](https://www.physiology.org/doi/pdf/10.1152/jn.2000.84.1.401) set out to quantify the Type I and II error rates introduced by human spike-sorting operators on the [Henze et al](https://www.physiology.org/doi/abs/10.1152/jn.2000.84.1.390?url_ver=Z39.88-2003&rfr_id=ori%3Arid%3Acrossref.org&rfr_dat=cr_pub%3Dpubmed) ground-truth dataset. We would like to conduct a similar study here, but expanding inquiry of human factors through participant self-report of strategies and observations, as well as by potentially recording biometric data (eye-tracking, reaction time) during sorting sessions. The goal would be to "reverse-engineer" cognitive strategies that experienced and accurate sorters use to make difficult decisions, which may in turn inform us about how best to implement fully automated sorting.*
+
+**8. Your project title here**
+*Your short description here*
