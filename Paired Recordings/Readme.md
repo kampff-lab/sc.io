@@ -56,23 +56,24 @@ import numpy as np
 npx_path = 'full path to the downloaded cxx_npx_raw.bin file'
 npx_channels = 384
 
-npx_recording = np.memmap( npx_path, mode = 'c', dtype=np.int16, order = 'C')
+npx_recording = np.memmap( npx_path, mode = 'r', dtype=np.int16, order = 'C')
 
 npx_samples = len(npx_recording)/npx_channels
 
 npx_recording = npx_recording.reshape((npx_channels, npx_samples), order = 'F')
 ```
-which will result in a 2D array where channels are rows (384) and columns are samples.
+which will result in a 2D array where channels are rows (384) and columns are samples. Pay attention to the ['mode' parameter](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.memmap.html) in the memmap function, as whis will determine whether the file is read-only or if you're writing changes to disk.
 
+**Neuropixel raw data is provided as an int16 binary. [Neuropixel ADCs](https://github.com/cortex-lab/neuropixels/wiki/Gain_settings) are 10 bits, with a range of -0.6 to 0.6 V, and acquisition was at 500x gain, yielding a resolution of 2.34 µV/bit.  
+To obtain readings in µV, you should  multiply the int16 values by 2.34.** 
 
+*Patch-clamp*
+Patch-clamp data are already provided in float64 type and current (pA) or voltage (mV) units, depending if the recording was performed in voltage- or current-clamp.
 
+To load a patch-clamp recording in python, do:  
+```python
+import numpy as np
 
-
-This is the readme file for the Paired Recordings project. For now it's just a placeholder while I organise things.
-
-To be added shortly:
-- Short description of the project
-- Link to preprint & dataset download
-- Link to metadata and technical info (which will be separate files on the google drive)
-- Brief explanation of the context for collaborative nature of the project and aims, what we hope to achieve with this
-- Brief guide on how to contribute
+patch_path = 'full path to the downloaded cxx_patch_ch1.bin file'
+patch_recording = np.fromfile(patch_path, dtype='float64')
+```
