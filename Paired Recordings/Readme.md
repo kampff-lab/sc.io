@@ -20,7 +20,10 @@ The full dataset is freely-available for download [here](https://drive.google.co
 The directory contains:
 - A folder for each paired recording with data;
 - Data Summary.xls - relevant metadata for each paired-recording;
-- chanMap.mat - map of channel layout.
+- chanMap.mat - map of channel layout;
+- Recording Catalogue.pdf - a series of stereotyped figures summarizing patch-clamp and extracellular recordings for every cell.
+
+The dataset is large. To download it in its entirety, you will need **approximately 750 GB hard drive space**. If you do not need the whole dataset, we advise you to use **'Data Summary.xls. and 'Recording Catalogue.pdf'** to choose a subset of recordings that fit your requirements. Those two documents combined with the preprint should contain all the information you need.
 
 ### Dataset organisation
 Each folder is titled 'cxx' (cell xx), corresponds to a paired-recording and contains the following files:
