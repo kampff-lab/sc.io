@@ -15,8 +15,10 @@ There are two basic aspects to which you can contribute:
 1. **Improving the core of the project.** You may find a bug in our code, a scientific problem with the way we conduct a certain analysis, or have an idea for improvements on something we've done. In this case, you should make a new branch from the 'master branch', work on it, and then submit your contribution.
 2. **Developing/contributing to a follow-up project.** This can be one of our suggestions or your own. In this scenario, you should make a new branch from the project-specific branch, work on it, and then submit your contribution.  
   
-To get everyone on the same page, we came up with a checklist of steps for a contribution:  
-0. Create a GitHub account if you don't have one already.
+To get everyone on the same page, we came up with a checklist for a contribution.
+  
+###Step-by-step guide for contributing  
+0. Create a GitHub account if you don't have one already.  
 0.5. Install GitHub desktop.  
 
 
