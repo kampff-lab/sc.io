@@ -9,7 +9,7 @@ Our second aim is to experiment with GitHub as a platform for transparent and cr
 ## How do I contribute?
 The more people contribute to this repository, the more successful our experiment in collaboration will be. The price of that potential success is that we will need to try and keep the repository organised.  
 
-The **'master' branch** is the core, stable release of the project. Think of it as the canon, the consensus. Each follow-up project has its own branch (**'Prj n'**), which can be thought of as work in progress. When a follow-up project is completed, it becomes part of the master branch.   
+The **'master' branch** is the core, stable release of the project. Think of it as the canon, the consensus. Each follow-up project has its own **'project-specific' branch** ('Prj n'), which can be thought of as work in progress. When a follow-up project is completed, it becomes part of the master branch.   
 
 There are two basic aspects to which you can contribute:
 1. **Improving the core of the project.** You may find a bug in our code, a scientific problem with the way we conduct a certain analysis, or have an idea for improvements on something we've done. In this case, you should make a new branch from the 'master branch', work on it, and then submit your contribution.
