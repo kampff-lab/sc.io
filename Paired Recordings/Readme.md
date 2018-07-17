@@ -53,7 +53,7 @@ Each folder is titled 'cxx' (cell xx), corresponds to a paired-recording and con
 **Neuropixel**  
 Neuropixel recordings were saved into a 1D binary vector, from 2D array organised as 384 rows (channels) x n columns (samples). The data was written to file from this matrix in column-major (F) order, ie, the first sample in the recording was written to file for every channel, then the second sample was written for every channel, etc, etc.
 
-If you are using the dataset to test sorting algorithms, it should load just fine. P
+The data are ready to be sorted using your favourite spike-sorting algorithm. If you run into trouble, [drop Andre a line](mailto:andrefmsmith@gmail.com).  
 
 To load the data correctly for other analysis you might want to carry out, you have to tell your software how it's organised and how to unpack it.
 
@@ -107,4 +107,4 @@ We focused on Python here, as that's what we use in the lab. All the files we sh
 # Help!
 If you run into trouble, if something is unclear, you spot a mistake, or if there is information you think would be helpful to add that we've missed out on, please get in touch with Andre Marques-Smith, at andrefmsmith@gmail.com. We're open to suggestions and very eager to help and improve the usability of this repository.
 
-Good luck!
+### Good luck! We look forwards to collaborating with you.
