@@ -7,7 +7,26 @@ Our first aim is to produce collaborative publications following up on the Marqu
 Our second aim is to experiment with GitHub as a platform for transparent and credited scientific collaboration between scientists distributed all over the world. GitHub provides an infrastructure that allows interested parties anywhere to work concertedly on the same problem, communicate and provide feedback on each other's ideas and be acknowledged clearly for their inputs with full transparency. We believe massively parallel, coordinated and transparent workflows such as this are essential for scientific progress when dealing with large, complex datasets.
 
 ## How do I contribute?
-**help, Goncalo!**
+The more people contribute to this repository, the more successful our experiment in collaboration will be. The price of that potential success is that we will need to try and keep the repository organised.  
+
+The **'master' branch** is the core, stable release of the project. Think of it as the canon, the consensus. Each follow-up project has its own branch (**'Prj n'**), which can be thought of as work in progress. When a follow-up project is completed, it becomes part of the master branch.   
+
+There are two basic aspects to which you can contribute:
+1. **Improving the core of the project.** You may find a bug in our code, a scientific problem with the way we conduct a certain analysis, or have an idea for improvements on something we've done. In this case, you should make a new branch from the 'master branch', work on it, and then submit your contribution.
+2. **Developing/contributing to a follow-up project.** This can be one of our suggestions or your own. In this scenario, you should make a new branch from the project-specific branch, work on it, and then submit your contribution.  
+  
+To get everyone on the same page, we came up with a checklist of steps for a contribution:  
+0. Create a GitHub account if you don't have one already.
+0.5. Install GitHub desktop.  
+
+
+1. Raise an issue with a brief description of it and what your plan is. This could be a bug in our code, an improvement to our analysis, or a proposal of a contribution to one of our suggested projects. Think of raising issues as **peer-review** - you're either finding a problem with what we've done or suggesting further work. Putting the issue out there also gives us and others the chance to comment and discuss with you. Goes without saying, but we'll say it: please keep debate civilized and constructive.
+2. Fork the repository.
+3. Create a branch to work on. If you're addressing something in the core of the project, you should branch off the **master branch**. If your contribution relates to a follow-up, please branch off the **project-specific** branch.
+4. Clone the repository into your hard-drive.
+5. Resolve any dependencies if needed (we'll provide more info on this).
+6. [Work, work, work, work, work](https://www.youtube.com/watch?v=HL1UzIK-flA). Commit and push changes to your working branch of the repository.
+7. When happy, send a pull request. We and other collaborators will check your contribution, give you feedback/review if necessary, and upon consensus, it will be merged with the project-specific branch. 
 
 ## What if I have my own idea?
 If you have an idea that isn't listed here, we would really like to hear about it. To pitch it, simply add a project to the list stating a title, providing a short description (see the examples of ongoing projects), and submit this as a **pull request**. If you'd like to provide further context and info, email Andre at andrefmsmith@gmail.com. Based on the info you provide us, we can give you feedback whether the idea is feasible within the constraints of our dataset.
