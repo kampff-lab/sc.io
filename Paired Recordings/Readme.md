@@ -100,8 +100,8 @@ To relate patch-clamp and extracellular events, you should obtain the conversion
 ```python  
 m = len(patch_recording)/float( len(npx_recording[0]))
 
-neuropixel_event = patch_sample / m
-patch_event = neuropixel_sample * m
+neuropixel_event = int(patch_sample / m)
+patch_event = int(neuropixel_sample * m)
 ```
 
 ### "I'm more of a Matlab person"
