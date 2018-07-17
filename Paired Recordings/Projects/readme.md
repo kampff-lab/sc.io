@@ -17,7 +17,7 @@ There are two basic aspects to which you can contribute:
   
 To get everyone on the same page, we came up with a checklist for a contribution.
   
-###Step-by-step guide for contributing  
+### Step-by-step guide for contributing  
 0. Create a GitHub account if you don't have one already.  
 0.5. Install GitHub desktop.  
 
