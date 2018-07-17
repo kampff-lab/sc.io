@@ -18,8 +18,8 @@ There are two basic aspects to which you can contribute:
 To get everyone on the same page, we came up with a checklist for a contribution.
   
 ### Step-by-step guide for contributing  
-0. Create a GitHub account if you don't have one already.  
-0.5. Install GitHub desktop.  
+a. Create a GitHub account if you don't have one already.  
+b. Install GitHub desktop.  
 
 
 1. Raise an issue with a brief description of it and what your plan is. This could be a bug in our code, an improvement to our analysis, or a proposal of a contribution to one of our suggested projects. Think of raising issues as **peer-review** - you're either finding a problem with what we've done or suggesting further work. Putting the issue out there also gives us and others the chance to comment and discuss with you. Goes without saying, but we'll say it: please keep debate civilized and constructive.
