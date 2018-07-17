@@ -14,6 +14,9 @@ All the data we shared is free for you to use for scientific research purposes. 
 - **The original publication describing the dataset:** Marques-Smith, A., Neto, J.P., Lopes, G., Nogueira, J., Calcaterra, L., Frazão, J., Kim, D., Phillips, M., Dimitriadis, G., Kampff, A.R. (xx July 2018). *Recording from the same neuron with high-density CMOS probes and patch-clamp: a ground-truth dataset and an experiment in collaboration.* biorXiv DOI & URL.
 - **The dataset itself:** 
 
+## Guide to contributions
+Please see [here](https://github.com/kampff-lab/sc.io/blob/master/Paired%20Recordings/Projects/readme.md#how-do-i-contribute) for a detailed how-to.
+
 ## Dataset and Metadata
 The full dataset is freely-available for download [here](https://drive.google.com/open?id=13GCOuWN4QMW6vQmlNIolUrxPy-4Wv1BC).
 
