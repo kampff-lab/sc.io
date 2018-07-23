@@ -10,9 +10,11 @@ In this repository you will find:
 - Basic instructions on loading recordings on your machine.
 
 ## Conditions of use
-All the data we shared is free for you to use for scientific research purposes. We ask only that you cite both:
+Code in this repository is shared under the [MIT licence](https://opensource.org/licenses/mit-license.php).
+
+All the data we shared is free for you to use under the licensing conditions of [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). We ask that you cite both:
 - **The original publication describing the dataset:** Marques-Smith, A., Neto, J.P., Lopes, G., Nogueira, J., Calcaterra, L., Frazão, J., Kim, D., Phillips, M., Dimitriadis, G., Kampff, A.R. (xx July 2018). *Recording from the same neuron with high-density CMOS probes and patch-clamp: a ground-truth dataset and an experiment in collaboration.* biorXiv DOI & URL.
-- **The dataset itself:** 
+- **The dataset itself:** (We are in the process of obtaining a DOI and permanent hosting for the dataset. This field will be updated soon)
 
 ## Guide to contributions
 Please see [here](https://github.com/kampff-lab/sc.io/blob/master/Paired%20Recordings/Projects/readme.md#how-do-i-contribute) for a detailed how-to.
