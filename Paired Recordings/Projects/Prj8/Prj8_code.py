@@ -15,17 +15,19 @@ import matplotlib.gridspec as gridspec
 from matplotlib import colors
 import matplotlib.cm as cmx
 from scipy.signal import butter, lfilter, freqz
+import math
  
 #%%Data frames and structures
 listcells = os.listdir('E:/code/for analysis')
 suffix = '_aligned_analysis'
 
-data_summary = pandas.read_excel('C:/Users/Andre Marques-Smith/Dropbox/Patch-Clamp Summary 2.0.xlsx')
+data_summary = pandas.read_excel('C:/Users/Andre Marques-Smith/Dropbox/Data Summary.xlsx')
 cells_above_10uV = data_summary.index[data_summary['JTA Peak-Peak Amplitude'] >= 10].tolist()
 #excluded_cells = [2, 6, 9, 10, 12, 21, 23]
 excluded_cells = [2, 5, 9, 12, 21, 23]
 cells_to_analyse = [ cells_above_10uV[i] for i in range(len(cells_above_10uV)) if i not in excluded_cells]
-
+n_cells = len( cells_to_analyse)
+dist_norm_amp = np.zeros((n_cells, 384,4), dtype = 'float')
 #%%Code for Joy division plots in Fig 7A and 7B - will generate for every cell.
 for cell in cells_to_analyse:
     paths = defaultdict(list)
@@ -59,37 +61,63 @@ for cell in cells_to_analyse:
     patch_sta = np.load(paths['patch_sta'][0])#, dtype = 'float64')
     patch_spikes = np.load(paths['patch_spikes'][0])#, dtype = 'int16')
     #
-    npx_voltage = np.memmap( paths['npx_v'][0], mode = 'c', dtype=np.int16 )
-    npx_voltage = npx_voltage.reshape((expt_meta['npx'][0][0], expt_meta['npx'][0][1]))
+
+    #npx_voltage = np.memmap( paths['npx_v'][0], mode = 'c', dtype=np.int16 )
+    #npx_voltage = npx_voltage.reshape((expt_meta['npx'][0][0], expt_meta['npx'][0][1]))
     #
     npx_sta_array = np.load(paths['npx_sta_array'][0])#, dtype = 'int16')
     npx_sta_mean = np.load(paths['npx_sta_mean'][0])#, dtype = 'float64')
-    npx_chan_peaks = np.load(paths['npx_chan_peaks'][0])#, dtype = 'float64')
-    #
-    m = len(patch_v)/float(len(npx_voltage[0,:]))
-    patch_spikes_npx = np.asarray([int(patch_spikes[i] / m) for i in range(len(patch_spikes))])
+    #npx_chan_peaks = np.load(paths['npx_chan_peaks'][0])#, dtype = 'float64')
+    npx_chan_peaks = [np.max(npx_sta_mean[i]) - np.min(npx_sta_mean[i]) for i in range(384)]
+    
+    central_chan = np.where(npx_chan_peaks ==np.max(npx_chan_peaks))[0][0]
+    #m = len(patch_v)/float(len(npx_voltage[0,:]))
+    #patch_spikes_npx = np.asarray([int(patch_spikes[i] / m) for i in range(len(patch_spikes))])
 #added int
-    central_chan = int(npx_chan_peaks[0,0])  
-
-#These plots only use one probe column, therefore we begin by finding which column a cell was, and which channels are in that column in order to plot them.
-    #What we're plotting is the first derivative of voltage over time, normalised to the channel closest to the soma/
-    cellcol = np.where(npx_mapcsv == central_chan)[1][0]
-    if cellcol == 0:
-        channels = np.arange(0,384,4)
-    elif cellcol == 1:
-        channels = np.arange(2,385,4)
-    elif cellcol == 2:
-        channels = np.arange(1,385,4)
-    elif cellcol == 3:
-        channels = np.arange(3,385,4)
+    #central_chan = int(npx_chan_peaks[0,0])  
+    #
+    
+    nc = cells_to_analyse.index(cell)
+    x0,y0 = chanMapcsv[np.where(chanMapcsv[:,0] == central_chan),1:3][0][0]
+    #z = data_summary.loc[data_summary['Cell'] == listcells[cell][:-17]]['Distance']
+    central_pk_a = np.max(npx_sta_mean[central_chan]) - np.min(npx_sta_mean[central_chan])
+    central_pk_t = np.argmin(npx_sta_mean[central_chan])
+    
+    for chan in range(384):
+        x1,y1 = chanMapcsv[np.where(chanMapcsv[:,0] == chan),1:3][0][0]
+        dist_norm_amp[nc, chan,0] = int(math.sqrt( (x0 - x1)**2 + (y0-y1)**2) ) # Distance between channel and somatic channel
+        if y1 < y0:
+            dist_norm_amp[nc, chan,0] *= -1
+        
+        chan_pk_a = np.max(npx_sta_mean[chan]) - np.min(npx_sta_mean[chan])
+        chan_pk_t = np.argmin(npx_sta_mean[chan])
+        dist_norm_amp[nc, chan,1] = chan_pk_a / central_pk_a # Normalised amplitude
+        dist_norm_amp[nc, chan,2] = 1000/30000.0 * (chan_pk_t - central_pk_t) # latency between channel negative peak and somatic negative peak
+        
+        #%%
+        d2 = dist_norm_amp[20,col_channels,:]
+    
+#%%
+    #Multi-channel waveforms for each cell: normalised first derivative of voltage over time
+    col_channels = np.flip(np.where(chanMapcsv[:,1] ==chanMapcsv[central_chan,1])[0], axis = 0)
+    
+    #np.where(npx_mapcsv == central_chan)[1][0]
+    #if cellcol == 0:
+    #    channels = np.arange(0,384,4)
+    #elif cellcol == 1:
+    #    channels = np.arange(2,385,4)
+    #elif cellcol == 2:
+    #    channels = np.arange(1,385,4)
+    #elif cellcol == 3:
+    #    channels = np.arange(3,385,4)
     fig = plt.figure()
     gs = gridspec.GridSpec(1, 2, width_ratios=[1, 2])
     shader = plt.subplot(gs[0])
-    shader.imshow(np.diff(npx_sta_mean[channels,:])/abs(np.min(np.diff(npx_sta_mean[channels,:]) )),cmap='seismic_r', interpolation='none', aspect = 3,vmin = -1, vmax = 1)#, norm = MidpointNormalize(midpoint=0.))# vmin = -1, vmax = 1)
+    shader.imshow(np.diff(npx_sta_mean[col_channels,:])/abs(np.min(np.diff(npx_sta_mean[col_channels,:]) )),cmap='seismic_r', interpolation='none', aspect = 3,vmin = -1, vmax = 1)#, norm = MidpointNormalize(midpoint=0.))# vmin = -1, vmax = 1)
     #ax.set_title('%s'%(cell_id ), y = 1.0, fontweight = 'bold' )
 #        cbar = fig.colorbar(shader, orientation = 'horizontal', shrink = 0.75)
     #plt.text(3,96 - np.where(npx_mapcsv == central_chan)[0][0]/2,'cell' )
-    cellrow = 96 - np.where(npx_mapcsv == central_chan)[0][0]/2 
+    cellrow = np.where(col_channels == central_chan)[0][0]
     shader.set_yticks([cellrow-15, cellrow-1, cellrow +15])
     shader.set_yticklabels(['%s-->'%(central_chan - 64), '%s'%(central_chan), '%s-->'%(central_chan+64)])
     #plt.hlines(96 - np.where(npx_mapcsv == central_chan)[0][0]/2 ,0,120 )
@@ -106,8 +134,8 @@ for cell in cells_to_analyse:
     shader.tick_params(axis='both', direction='in')
     shader.hlines(cellrow-15,0,119,linestyle = 'dashed', lw = 0.4  )
     shader.hlines(cellrow+15,0,119,linestyle = 'dashed', lw = 0.4  )
-    plt.gca().invert_yaxis()
-    #
+    #plt.gca().invert_yaxis()
+    #%%
     joydivision = plt.subplot(gs[1])
     chanlist = np.arange(central_chan - 64,central_chan+64,4)
     range_joy = np.min(npx_sta_mean[:,:]), np.max(npx_sta_mean[:,:])
