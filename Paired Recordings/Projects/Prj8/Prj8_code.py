@@ -16,7 +16,10 @@ from matplotlib import colors
 import matplotlib.cm as cmx
 from scipy.signal import butter, lfilter, freqz
 import math
- 
+import matplotlib.gridspec as gridspec
+from matplotlib import colors
+import matplotlib.cm as cmx 
+
 #%%Data frames and structures
 listcells = os.listdir('E:/code/for analysis')
 suffix = '_aligned_analysis'
@@ -27,7 +30,7 @@ cells_above_10uV = data_summary.index[data_summary['JTA Peak-Peak Amplitude'] >=
 excluded_cells = [2, 5, 9, 12, 21, 23]
 cells_to_analyse = [ cells_above_10uV[i] for i in range(len(cells_above_10uV)) if i not in excluded_cells]
 n_cells = len( cells_to_analyse)
-dist_norm_amp = np.zeros((n_cells, 384,4), dtype = 'float')
+backprop_prof = np.zeros((n_cells, 50,4), dtype = 'float')
 #%%Code for Joy division plots in Fig 7A and 7B - will generate for every cell.
 for cell in cells_to_analyse:
     paths = defaultdict(list)
@@ -78,28 +81,40 @@ for cell in cells_to_analyse:
     #
     
     nc = cells_to_analyse.index(cell)
+    
+    col_channels = np.flip(np.where(chanMapcsv[:,1] ==chanMapcsv[central_chan,1])[0], axis = 0)
+    subset_1000 = col_channels[np.where(col_channels == central_chan)[0][0]-25:np.where(col_channels == central_chan)[0][0]+25]
+    
     x0,y0 = chanMapcsv[np.where(chanMapcsv[:,0] == central_chan),1:3][0][0]
     #z = data_summary.loc[data_summary['Cell'] == listcells[cell][:-17]]['Distance']
     central_pk_a = np.max(npx_sta_mean[central_chan]) - np.min(npx_sta_mean[central_chan])
     central_pk_t = np.argmin(npx_sta_mean[central_chan])
     
-    for chan in range(384):
+    for chan in subset_1000:
         x1,y1 = chanMapcsv[np.where(chanMapcsv[:,0] == chan),1:3][0][0]
-        dist_norm_amp[nc, chan,0] = int(math.sqrt( (x0 - x1)**2 + (y0-y1)**2) ) # Distance between channel and somatic channel
+        backprop_prof[nc, np.where(subset_1000==chan)[0][0] ,0] = int(math.sqrt( (x0 - x1)**2 + (y0-y1)**2) ) # Distance between channel and somatic channel
         if y1 < y0:
-            dist_norm_amp[nc, chan,0] *= -1
+            backprop_prof[nc, np.where(subset_1000==chan)[0][0],0] *= -1
         
         chan_pk_a = np.max(npx_sta_mean[chan]) - np.min(npx_sta_mean[chan])
         chan_pk_t = np.argmin(npx_sta_mean[chan])
-        dist_norm_amp[nc, chan,1] = chan_pk_a / central_pk_a # Normalised amplitude
-        dist_norm_amp[nc, chan,2] = 1000/30000.0 * (chan_pk_t - central_pk_t) # latency between channel negative peak and somatic negative peak
+        backprop_prof[nc, np.where(subset_1000==chan)[0][0],1] = chan_pk_a / central_pk_a # Normalised amplitude
+        backprop_prof[nc, np.where(subset_1000==chan)[0][0],2] = 1000/30000.0 * (chan_pk_t - central_pk_t) # latency between channel negative peak and somatic negative peak
         
         #%%
-        d2 = dist_norm_amp[20,col_channels,:]
+origin_cmap= plt.get_cmap('viridis')
+cm=origin_cmap
+cNorm=colors.Normalize(vmin= 0, vmax= n_cells )
+scalarMap= cmx.ScalarMappable(norm=cNorm,cmap=cm)
+
+for cell in range(n_cells):
+    colorVal=scalarMap.to_rgba( cell )
+    plt.scatter(backprop_prof[cell,:,0], backprop_prof[cell,:,1], c = colorVal, s = 3)
     
+plt.plot(np.average(backprop_prof[:,:,0], axis = 0), np.average(backprop_prof[:,:,1], axis = 0), c = 'r')
 #%%
     #Multi-channel waveforms for each cell: normalised first derivative of voltage over time
-    col_channels = np.flip(np.where(chanMapcsv[:,1] ==chanMapcsv[central_chan,1])[0], axis = 0)
+
     
     #np.where(npx_mapcsv == central_chan)[1][0]
     #if cellcol == 0:
