@@ -30,7 +30,7 @@ cells_above_10uV = data_summary.index[data_summary['JTA Peak-Peak Amplitude'] >=
 excluded_cells = [2, 5, 9, 12, 21, 23]
 cells_to_analyse = [ cells_above_10uV[i] for i in range(len(cells_above_10uV)) if i not in excluded_cells]
 n_cells = len( cells_to_analyse)
-backprop_prof = np.zeros((n_cells, 50,4), dtype = 'float')
+backprop_prof = np.zeros((n_cells, 51,4), dtype = 'float')
 #%%Code for Joy division plots in Fig 7A and 7B - will generate for every cell.
 for cell in cells_to_analyse:
     paths = defaultdict(list)
@@ -83,7 +83,7 @@ for cell in cells_to_analyse:
     nc = cells_to_analyse.index(cell)
     
     col_channels = np.flip(np.where(chanMapcsv[:,1] ==chanMapcsv[central_chan,1])[0], axis = 0)
-    subset_1000 = col_channels[np.where(col_channels == central_chan)[0][0]-25:np.where(col_channels == central_chan)[0][0]+25]
+    subset_1000 = col_channels[np.where(col_channels == central_chan)[0][0]-25:np.where(col_channels == central_chan)[0][0]+26]
     
     x0,y0 = chanMapcsv[np.where(chanMapcsv[:,0] == central_chan),1:3][0][0]
     #z = data_summary.loc[data_summary['Cell'] == listcells[cell][:-17]]['Distance']
@@ -102,16 +102,52 @@ for cell in cells_to_analyse:
         backprop_prof[nc, np.where(subset_1000==chan)[0][0],2] = 1000/30000.0 * (chan_pk_t - central_pk_t) # latency between channel negative peak and somatic negative peak
         
         #%%
-origin_cmap= plt.get_cmap('viridis')
+backprop_interp = np.empty((2000,2), dtype = 'float')
+backprop_interp[:,0] = np.arange(1000,-1000,-1)
+f = interp1d(np.average(backprop_prof[:,:,0], axis = 0), np.average(backprop_prof[:,:,1], axis = 0) )
+backprop_interp[:,1] = f(backprop_interp[:,0])
+
+windows = np.zeros((3,3), dtype = 'float')
+windows[0:3,0] = 0.5, 0.25, 0.12
+for t in windows[:,0]:
+    windows[np.where(windows[:,0]==t),2] = backprop_interp[np.where(abs(backprop_interp[:,1] - t) <=0.005)[0][0],0]
+    windows[np.where(windows[:,0]==t),1] = backprop_interp[np.where(abs(backprop_interp[:,1] - t) <=0.005)[0][-1],0]
+#%%
+origin_cmap= plt.get_cmap('hot')
 cm=origin_cmap
 cNorm=colors.Normalize(vmin= 0, vmax= n_cells )
 scalarMap= cmx.ScalarMappable(norm=cNorm,cmap=cm)
 
 for cell in range(n_cells):
     colorVal=scalarMap.to_rgba( cell )
-    plt.scatter(backprop_prof[cell,:,0], backprop_prof[cell,:,1], c = colorVal, s = 3)
+    plt.scatter(backprop_prof[cell,:,0]/1000.0, backprop_prof[cell,:,1], c = colorVal, s = 3, alpha = 0.15)
     
-plt.plot(np.average(backprop_prof[:,:,0], axis = 0), np.average(backprop_prof[:,:,1], axis = 0), c = 'r')
+plt.plot(np.average(backprop_prof[:,:,0], axis = 0)/1000.0, np.average(backprop_prof[:,:,1], axis = 0), c = 'k')
+plt.xlabel('Distance to soma (mm)',fontweight='bold')
+plt.xticks([-1,-0.5,0.0,0.5,1.0])
+plt.yticks([0.0, 0.12, 0.25, 0.5, 0.75, 1.0])
+plt.ylabel('Normalised Peak-Peak Amplitude', fontweight='bold')
+plt.text(0.8,1.0, '(n = 21)', fontweight='bold')
+plt.text(0.5,1.0, 'Average',fontweight='bold', color='k')
+
+tmap = plt.get_cmap('cool')
+#cm=origin_cmap
+cNormt=colors.Normalize(vmin= 0.12, vmax= 0.5 )
+scalarMap= cmx.ScalarMappable(norm=cNormt,cmap=tmap)
+for t in windows[:,0]:
+    colorVal=scalarMap.to_rgba( t )
+    plt.vlines(windows[np.where(windows[:,0]==t),1]/1000.0, -0.05, windows[np.where(windows[:,0]==t),0]  , color = colorVal)
+    plt.vlines(windows[np.where(windows[:,0]==t),2]/1000.0, -0.05, windows[np.where(windows[:,0]==t),0]  , color = colorVal)
+    plt.hlines(t, windows[np.where(windows[:,0]==t),1]/1000.0, windows[np.where(windows[:,0]==t),2]/1000.0   ,  color = colorVal)
+    plt.text(windows[np.where(windows[:,0]==t),2]/1000.0 + 0.01, t, '%s' %( round(windows[np.where(windows[:,0]==t),2][0][0]/1000.0,2) ), style = 'italic',  color = colorVal)
+    plt.text(windows[np.where(windows[:,0]==t),1]/1000.0 - 0.18, t, '%s' %( round(windows[np.where(windows[:,0]==t),1][0][0]/1000.0,2) ), style = 'italic',  color = colorVal)
+plt.ylim(-0.05,1.05)
+#%%
+#%%
+
+#%%
+
+    
 #%%
     #Multi-channel waveforms for each cell: normalised first derivative of voltage over time
 
