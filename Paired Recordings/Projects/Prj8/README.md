@@ -16,6 +16,8 @@ Next steps:
     - If the mechanistic possibility exists for AP backpropagation to be modulated (e.g. by inhibitory interneurons or cell-intrinsic mechanisms), what could it be exploited for? Main hypothesis I'm aware of is plasticity, but contextual modulation/gating of top-down inputs sounds interesting as well.
     - On the other hand, AP backpropagation could be stereotyped for a cell*. Presumably, differences in backprop motifs arise from a combination of i) biophysical properties, ii) morphology and iii) orientation of that neuron's neurites relative to the probe. One might imagine the particular combination of these 3 properties embodied by a cell to be quite specific; with that in mind, can multi-channel backprop motifs be exploited as an additional dimension for spike-sorting? Is variability in motif between cells greater than within cells? This could be interesting to explore.
 
+*_This could be stereotyped in anaesthetised state but not in awake state_
+
 Questions I have (help!):
 - These plots are limited, for clarity, to a single column of channels. I'm having trouble working out a trajectory representation that encompasses all 4 columns, as EAP negative peaks are often simultaneous for channels on the same row;
 - What would be a good method for determining whether within-cell variability in propagation motif is greater/lower than between-cell variability?
