@@ -229,9 +229,9 @@ excluded_cells = [2, 5, 9, 12, 21, 23]
 cells_to_analyse = [ cells_above_10uV[i] for i in range(len(cells_above_10uV)) if i not in excluded_cells]
 
 zoomed_histo = [[]] * len(cells_to_analyse)
-row_zoom = 0
-rms = np.empty((len(cells_to_analyse),30), dtype = float)
-Thr = np.empty((len(cells_to_analyse),30), dtype = float)
+#row_zoom = 0
+#rms = np.empty((len(cells_to_analyse),30), dtype = float)
+#Thr = np.empty((len(cells_to_analyse),30), dtype = float)
 
 #%%Batch Analysis for every cell out of 21 further analysed
 #output_dir = 'C:/Users/Andre Marques-Smith/Dropbox/Paired Recordings biorxiv/repro/fig5/'
@@ -283,29 +283,36 @@ for cell in cells_to_analyse[20:21]:
     patch_spikes_npx = np.asarray([int(patch_spikes[i] / m) for i in range(len(patch_spikes))])
     nc = cells_to_analyse.index(cell)
 #%%In Development
-dot_prod = np.empty((len(patch_spikes),3), dtype = 'float')
-
-non_spikes = []
-
-rand_times = random.sample(range(30, len(npx_voltage[0])-31), len(patch_spikes))
-
-chan = central_chan-10
-
-while len(non_spikes)< len(patch_spikes):
-    r = random.randint(30, len(npx_voltage[0])-31)
-    if r not in patch_spikes_npx:
-        if r not in non_spikes:
-            non_spikes.append(r)
-
-for spike in range(len(patch_spikes)):
-    dot_prod[spike,0] = np.dot(unit_vector(npx_sta_array[chan,30:90,spike]), unit_vector(npx_sta_mean[chan, 30:90]))
-    dot_prod[spike,1] = np.dot(unit_vector(npx_voltage[chan,non_spikes[spike]-30:non_spikes[spike]+30]), unit_vector(npx_sta_mean[chan, 30:90]))
-    dot_prod[spike,2] = np.dot(unit_vector(npx_voltage[chan,rand_times[spike]-30:rand_times[spike]+30]), unit_vector(npx_sta_mean[chan, 30:90]))
-#
-weights = np.ones_like(dot_prod[:,0])/float(len(dot_prod[:,0]))
-plt.hist(dot_prod[:,0], bins = 100, alpha = 0.5, color = 'b', weights = weights)    
-plt.hist(dot_prod[:,1], bins = 100, alpha = 0.5, color = 'r', weights = weights)
-
+    dot_prod = np.empty((len(patch_spikes),3), dtype = 'float')
+    
+    non_spikes = []
+    
+    rand_times = random.sample(range(30, len(npx_voltage[0])-31), len(patch_spikes))
+    
+    chan = central_chan
+    
+    while len(non_spikes)< len(patch_spikes):
+        r = random.randint(30, len(npx_voltage[0])-31)
+        if r not in patch_spikes_npx:
+            if r not in non_spikes:
+                non_spikes.append(r)
+    
+    for spike in range(len(patch_spikes)):
+        dot_prod[spike,0] = np.dot(unit_vector(npx_sta_array[chan,30:90,spike]), unit_vector(npx_sta_mean[chan, 30:90]))
+        dot_prod[spike,1] = np.dot(unit_vector(npx_voltage[chan,non_spikes[spike]-30:non_spikes[spike]+30]), unit_vector(npx_sta_mean[chan, 30:90]))
+        dot_prod[spike,2] = np.dot(unit_vector(npx_voltage[chan,rand_times[spike]-30:rand_times[spike]+30]), unit_vector(npx_sta_mean[chan, 30:90]))
+    #
+    weights = np.ones_like(dot_prod[:,0])/float(len(dot_prod[:,0]))
+    plt.hist(dot_prod[:,0], bins = np.arange(-1,1.02,0.02),  weights = weights, alpha = 0.5, color = 'b')    #alpha = 0.5, color = 'b',
+    plt.hist(dot_prod[:,1], bins = np.arange(-1,1.02,0.02), weights = weights, alpha = 0.5, color = 'orange') # alpha = 0.5, color = 'r',
+    #plt.ylabel('Relative Frequency(proportion)', fontweight = 'bold')
+    #plt.xlabel('Dot Product', fontweight = 'bold')
+    plt.xticks([-1, -0.5, 0, 0.5, 1.0])
+    plt.title(data_summary.loc[cells_to_analyse[nc]]['Cell'], fontweight = 'bold' )
+    plt.tight_layout()
+    plt.savefig('E:/repos/sc.io/Paired Recordings/New main figures/Fig 5/Cells/dot_prod_distribution_%s.png' %(data_summary.loc[cells_to_analyse[nc]]['Cell']))
+    plt.close()
+#plt.ylim(0,0.5)
 #plt.hist(dot_prod[:,2], bins = np.arange(0,1.05,0.01), alpha = 0.1, color = 'm')
     
     
