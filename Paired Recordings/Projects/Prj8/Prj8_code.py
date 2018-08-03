@@ -32,6 +32,11 @@ cells_to_analyse = [ cells_above_10uV[i] for i in range(len(cells_above_10uV)) i
 n_cells = len( cells_to_analyse)
 
 backprop = 999*np.ones((n_cells, 49,4), dtype = 'float')
+backprop_interp_bycell = np.empty((960, 1+n_cells), dtype = 'float')
+backprop_interp_bycell[:,0] = np.arange(480,-480,-1)
+f_bycell = np.empty((n_cells), dtype = 'object')
+windows_bycell = np.zeros((n_cells, 3,4), dtype = 'float')
+windows_bycell[:,0:3,0] = 0.5, 0.25, 0.12
 #%%Code for Joy division plots in Fig 7A and 7B - will generate for every cell.
 for cell in cells_to_analyse:
     paths = defaultdict(list)
@@ -154,7 +159,7 @@ for cell in cells_to_analyse:
     plt.savefig( 'E:/repos/sc.io/Paired Recordings/Projects/Prj8/cells/supp_fig_7.1_%s.png' %(data_summary.loc[cells_to_analyse[nc]]['Cell']), dpi = 300)
     plt.close()
     backprop[nc,:,0] = col_distances[abs(col_distances)<=480]
-    #%%EAP propagation trajectory figure - plotting only cells where EAP could be tracked at more than 3 points (amplitude > 10uV) and only ±240 um from soma
+    #EAP propagation trajectory figure - plotting only cells where EAP could be tracked at more than 3 points (amplitude > 10uV) and only ±240 um from soma
     origin_cmap= plt.get_cmap('tab20')
     cm=origin_cmap
     cNorm=colors.Normalize(vmin= 0, vmax= 21 )
@@ -179,7 +184,26 @@ for cell in cells_to_analyse:
     
     plt.savefig('E:/repos/sc.io/Paired Recordings/Projects/Prj8/Fig_7B_Trajectories.png')
     plt.close()
-#%%EAP amplitude propagation profile - interpolate average propagation and find intersection with y = 0.5, 0.25 and 0.12
+    
+#EAP amplitude propagation profile - interpolate average propagation and find intersection with y = 0.5, 0.25 and 0.12
+    f_bycell[nc] = interp1d( backprop[nc,:,0], backprop[nc, :,1] )
+    backprop_interp_bycell[:,nc+1] = f_bycell[nc]( backprop_interp_bycell[:,0])
+    
+    for t in windows_bycell[nc,:,0]:
+        i = 480
+        while backprop_interp_bycell[i,nc+1] >= t:
+            i+=1
+        windows_bycell[nc, np.where(windows_bycell[nc, :,0]==t),1] =backprop_interp_bycell[i,0]
+        i = 480
+        while backprop_interp_bycell[i,nc+1] >= t:
+            i-=1
+        windows_bycell[nc, np.where(windows_bycell[nc, :,0]==t),2] =backprop_interp_bycell[i,0]
+        
+        #windows_bycell[nc, np.where(windows_bycell[nc, :,0]==t),2] = backprop_interp_bycell[np.where(abs(backprop_interp_bycell[:,nc+1] - t) <=0.01)[0][0], 0]
+        #windows_bycell[nc, np.where(windows_bycell[nc, :,0]==t),1] = backprop_interp_bycell[np.where(abs(backprop_interp_bycell[:,nc+1] - t) <=0.01)[0][-1],0]
+        
+        windows_bycell[nc, np.where(windows_bycell[nc, :,0]==t),3] = windows_bycell[nc, np.where(windows_bycell[nc, :,0]==t),2] - windows_bycell[nc, np.where(windows_bycell[nc, :,0]==t),1]
+    #%%Interpolate and find spread for average profile of 21 cells
 backprop_interp = np.empty((960,2), dtype = 'float')
 backprop_interp[:,0] = np.arange(480,-480,-1)
 f = interp1d(np.average(backprop[:,:,0], axis = 0), np.average(backprop[:,:,1], axis = 0) )
@@ -225,13 +249,54 @@ plt.ylim(-0.5,0.5)
 plt.savefig('E:/repos/sc.io/Paired Recordings/Projects/Prj8/Fig_7A_EAP_propagation_profile.png')
 plt.close()
 #%%
-
-
+for nc in range(21):
+    for t in windows_bycell[nc,:,0]:
+            
+            windows_bycell[nc, np.where(windows_bycell[nc, :,0]==t),3] = (abs(windows_bycell[nc, np.where(windows_bycell[nc, :,0]==t),2]) + abs(windows_bycell[nc, np.where(windows_bycell[nc, :,0]==t),1]))/2.0
 
 
 
 ###From here below, testing
+    
+    
+    
+    
+    
+    #%%looking at pk2pk amplitude vs spread (continuous space above 0.5, 0.25 or 0.12 of somatic EAP amplitude)
+    for cell in range(21):
+        #plt.scatter(abs(windows_bycell[cell][0,3]), backprop[cell,24,3], s = 12, c = 'blue')
+        #plt.scatter(abs(windows_bycell[cell][1,3]), backprop[cell,24,3], s = 12, c = 'orange')
+        plt.scatter(abs(windows_bycell[cell][2,3]), backprop[cell,24,3], s = 12, c = 'red')
+    #%%
+
+    #%%derivative phase plot of target channel vs soma
+    tgt_chan = 171
+    plt.plot(npx_sta_mean[central_chan])
+    plt.plot(npx_sta_mean[tgt_chan])
+    #%%%
+    
+    origin_cmap= plt.get_cmap('hot')
+    cm=origin_cmap
+    cNorm=colors.Normalize(vmin= 0, vmax= 120 )
+    scalarMap= cmx.ScalarMappable(norm=cNorm,cmap=cm)
+    
+    a = np.diff(npx_sta_mean[central_chan]) 
+    b = np.diff(npx_sta_mean[tgt_chan] )
+    
+    for t in range(0,120):
+        colorVal = colorVal=scalarMap.to_rgba( t )
+        plt.scatter(b[t], a[t], color = colorVal, alpha = 0.7)
+    #plt.ylim(-200,200)
+    #plt.xlim(-200,200)
+    plt.vlines(0,np.min(a),np.max(a))
+    plt.hlines(0,np.min(b),np.max(b))
 #%%
+    clean_traces = np.empty((25), dtype = 'object')
+    
+    for chan in col_channels[abs(col_distances) < 240]:
+        clean_traces[ list(col_channels[abs(col_distances) < 240]).index(chan) ] = np.where(abs(np.min(2.34*npx_sta_array[chan,30:80,:], axis = 0) - np.min(npx_sta_mean[chan,30:80]))<=20) 
+    
+    #%%
 origin_cmap= plt.get_cmap('rainbow')
 cm=origin_cmap
 cNorm=colors.Normalize(vmin= 0, vmax= n_cells )
