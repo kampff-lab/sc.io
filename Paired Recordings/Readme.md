@@ -15,15 +15,16 @@ In this repository you will find:
 ## Conditions of use
 Code in this repository is shared under the [MIT licence](https://opensource.org/licenses/mit-license.php).
 
-All the data we shared is free for you to use under the licensing conditions of [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). We ask that you cite both:
+All the data we shared is free for you to use under the licensing conditions of [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).    We ask that you cite both:
 - **The original publication describing the dataset:** Marques-Smith, A., Neto, J.P., Lopes, G., Nogueira, J., Calcaterra, L., Frazão, J., Kim, D., Phillips, M., Dimitriadis, G., Kampff, A.R. (xx July 2018). *Recording from the same neuron with high-density CMOS probes and patch-clamp: a ground-truth dataset and an experiment in collaboration.* bioRxiv 370080; doi: https://doi.org/10.1101/370080
-- **The dataset itself:** (We are in the process of obtaining a DOI and permanent hosting for the dataset. This field will be updated soon)
+- **The dataset itself:** André Marques-Smith, Joana P. Neto, Gonçalo Lopes, Joana Nogueira, Lorenza Calcaterra, João Frazão, Danbee Kim, Matthew G. Phillips, George Dimitriadis and Adam R. Kampff (2018); Simultaneous patch-clamp and dense CMOS probe extracellular recordings from the same cortical neuron in anaesthetized rats. CRCNS.org
+http://dx.doi.org/10.6080/K0J67F4T
 
 ## Guide to contributions
 Please see [here](https://github.com/kampff-lab/sc.io/blob/master/Paired%20Recordings/Projects/readme.md#how-do-i-contribute) for a detailed how-to.
 
 ## Dataset and Metadata
-The full dataset is freely-available for download [here](https://drive.google.com/open?id=13GCOuWN4QMW6vQmlNIolUrxPy-4Wv1BC).
+The full dataset is freely-available for download [from our Google Drive](https://drive.google.com/open?id=13GCOuWN4QMW6vQmlNIolUrxPy-4Wv1BC) and [CRCNS.org](http://dx.doi.org/10.6080/K0J67F4T). For the moment we are still supporting Google Drive downloads, but given the data is now hosted at CRCNS.org, we will eventually discontinue this. We recommend you use the CRCNS.org link, as this enables easier batch downloading of files, as well as a smaller download size (~276 GB), since the folders are compressed in tar.gz.
 
 The directory contains:
 - A folder for each paired recording with data;
@@ -31,7 +32,7 @@ The directory contains:
 - chanMap.mat - map of channel layout;
 - Recording Catalogue.pdf - a series of stereotyped figures summarizing patch-clamp and extracellular recordings for every cell.
 
-The dataset is large. To download it in its entirety, you will need **approximately 750 GB hard drive space**. If you do not need the whole dataset, we advise you to use **'Data Summary.xls. and 'Recording Catalogue.pdf'** to choose a subset of recordings that fit your requirements. Those two documents combined with the preprint should contain all the information you need.
+The dataset is large. To unpack it in its entirety, you will need **approximately 750 GB hard drive space**. If you do not need the whole dataset, we advise you to use **'Data Summary.xls. and 'Recording Catalogue.pdf'** to choose a subset of recordings that fit your requirements. Those two documents combined with the preprint should contain all the information you need. 
 
 ### Dataset organisation
 Each folder is titled 'cxx' (cell xx), corresponds to a paired-recording and contains the following files:
@@ -40,7 +41,7 @@ Each folder is titled 'cxx' (cell xx), corresponds to a paired-recording and con
 *Dimensions that Neuropixel and patch-clamp recording files should be reshaped to and their data type (int, float), when importing into Python or Matlab.*
 
 - cxx_npx_raw.bin  
-*Neuropixel recording (384 channels), 1D binary file. The shared data has only been offset-subtracted; no CAR or filtering has been performed on it, as different individuals have distinct preprocessing routines they prefer to use.*
+*Neuropixel recording (384 channels), 1D binary file. The shared data has only been offset-subtracted; no CAR or filtering has been performed on it, as different individuals have distinct preprocessing routines they prefer to use. Please note that this is the action potential band; during acquisition it was high-pass filtered at 300 Hz (first-order). We do have the LFP files, which are available upon any request - see below.*
 
 - cxx_npx_sync.bin  
 *Neuropixel sync channel, binary file.*
@@ -108,6 +109,9 @@ m = len(patch_recording)/float( len(npx_recording[0]))
 neuropixel_event = int(patch_sample / m)
 patch_event = int(neuropixel_sample * m)
 ```
+
+### I'd like to look at LFPs.
+Awesome! We have the LFP band (below 300 Hz) recordings for every cell, but these are not yet uploaded. [Drop Andre a line](mailto:andrefmsmith@gmail.com) and he'll send you a download link. Total size for the LFP dataset is ~60 GB and LFP sampling rate is 2.5 KHz. Eventually this will also be added to CRCNS.org.
 
 ### "I'm more of a Matlab person"
 We focused on Python here, as that's what we use in the lab. All the files we shared are in open formats, and as such usable in Matlab. If you're an experienced Matlab user, we'd really appreciate if you got in touch/sent a pull request with Matlab code to load our Neuropixel and patch-clamp binary data, so that we can put it here instead of this placeholder.
