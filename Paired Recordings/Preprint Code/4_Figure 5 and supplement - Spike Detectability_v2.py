@@ -232,12 +232,13 @@ zoomed_histo = [[]] * len(cells_to_analyse)
 #row_zoom = 0
 #rms = np.empty((len(cells_to_analyse),30), dtype = float)
 #Thr = np.empty((len(cells_to_analyse),30), dtype = float)
-Z = np.empty((len(cells_to_analyse), 2), dtype = 'float')
-p = np.empty((len(cells_to_analyse), 3), dtype = 'float')
+
+=======
+
 #%%Batch Analysis for every cell out of 21 further analysed
 #output_dir = 'C:/Users/Andre Marques-Smith/Dropbox/Paired Recordings biorxiv/repro/fig5/'
 
-for cell in cells_to_analyse:
+for cell in cells_to_analyse[20:21]:
     paths = defaultdict(list)
     cell_idx = listcells.index(data_summary.loc[cell]['Cell']+suffix)
 
@@ -283,13 +284,17 @@ for cell in cells_to_analyse:
     m = len(patch_v)/float(len(npx_voltage[0,:]))
     patch_spikes_npx = np.asarray([int(patch_spikes[i] / m) for i in range(len(patch_spikes))])
     nc = cells_to_analyse.index(cell)
-#%In Development
+
+#%%In Development
+
     dot_prod = np.empty((len(patch_spikes),3), dtype = 'float')
     
     non_spikes = []
     
     rand_times = random.sample(range(30, len(npx_voltage[0])-31), len(patch_spikes))
-    #%
+
+    
+
     chan = central_chan
     
     while len(non_spikes)< len(patch_spikes):
@@ -302,51 +307,23 @@ for cell in cells_to_analyse:
         dot_prod[spike,0] = np.dot(unit_vector(npx_sta_array[chan,30:90,spike]), unit_vector(npx_sta_mean[chan, 30:90]))
         dot_prod[spike,1] = np.dot(unit_vector(npx_voltage[chan,non_spikes[spike]-30:non_spikes[spike]+30]), unit_vector(npx_sta_mean[chan, 30:90]))
         dot_prod[spike,2] = np.dot(unit_vector(npx_voltage[chan,rand_times[spike]-30:rand_times[spike]+30]), unit_vector(npx_sta_mean[chan, 30:90]))
-    a = np.where(np.histogram(dot_prod[:,0], bins = np.arange(-1,1.02,0.02))[0]/ np.histogram(dot_prod[:,1],bins = np.arange(-1,1.02,0.02))[0]>3)[0][0]
-    #weights = np.ones_like(dot_prod[:,0])/float(len(dot_prod[:,0]))
-    plt.hist(dot_prod[:,0], bins = np.arange(-1,1.02,0.02),   alpha = 0.5, color = 'b')    #alpha = 0.5, color = 'b',
-    plt.hist(dot_prod[:,1], bins = np.arange(-1,1.02,0.02),  alpha = 0.5, color = 'r') # alpha = 0.5, color = 'r',
-    plt.vlines(np.arange(-1,1.02,0.02)[a],0, np.max(np.histogram(dot_prod[:,0], bins = np.arange(-1,1.02,0.02))[0]), color = 'c' )
+
+    #
+    weights = np.ones_like(dot_prod[:,0])/float(len(dot_prod[:,0]))
+    plt.hist(dot_prod[:,0], bins = np.arange(-1,1.02,0.02),  weights = weights, alpha = 0.5, color = 'b')    #alpha = 0.5, color = 'b',
+    plt.hist(dot_prod[:,1], bins = np.arange(-1,1.02,0.02), weights = weights, alpha = 0.5, color = 'orange') # alpha = 0.5, color = 'r',
     #plt.ylabel('Relative Frequency(proportion)', fontweight = 'bold')
     #plt.xlabel('Dot Product', fontweight = 'bold')
     plt.xticks([-1, -0.5, 0, 0.5, 1.0])
-    plt.locator_params(axis = 'y', nbins = 4)
     plt.title(data_summary.loc[cells_to_analyse[nc]]['Cell'], fontweight = 'bold' )
     plt.tight_layout()
-    plt.savefig('E:/repos/sc.io/Paired Recordings/New main figures/Fig 5/dot_prod_distribution_%s.png' %(data_summary.loc[cells_to_analyse[nc]]['Cell']))
+    plt.savefig('E:/repos/sc.io/Paired Recordings/New main figures/Fig 5/Cells/dot_prod_distribution_%s.png' %(data_summary.loc[cells_to_analyse[nc]]['Cell']))
     plt.close()
 #plt.ylim(0,0.5)
 #plt.hist(dot_prod[:,2], bins = np.arange(0,1.05,0.01), alpha = 0.1, color = 'm')
-    #
-    Z[nc,0] = (np.mean(dot_prod[:,0]) - np.mean(dot_prod[:,1])) / math.sqrt(np.std(dot_prod[:,0])/math.sqrt(len(dot_prod[:,0])) + np.std(dot_prod[:,1])/math.sqrt(len(dot_prod[:,1])))
-    Z[nc,1] = np.max(npx_sta_mean[central_chan]) - np.min(npx_sta_mean[central_chan])
-    
-#    a = np.where(np.histogram(dot_prod[:,0], bins = np.arange(-1,1.02,0.02))[0]/ np.histogram(dot_prod[:,1],bins = np.arange(-1,1.02,0.02))[0]>5)[0][0]
-            
-    p[nc,0] = (np.sum(np.histogram(dot_prod[:,0], bins = np.arange(-1,1.02,0.02))[0][a:])) / float(len(dot_prod[:,1]))
-    p[nc,1] = np.max(npx_sta_mean[central_chan]) - np.min(npx_sta_mean[central_chan])
-    p[nc,2] = np.min(npx_sta_mean[central_chan]) / (-7*np.median(np.abs(npx_voltage[central_chan,:] - np.median(npx_voltage[central_chan,:] ))))
-    #%%
-    origin_cmap= plt.get_cmap('viridis')
-    cm=origin_cmap
-    cNorm=colors.Normalize(vmin= np.min(Z[:,1]), vmax= np.max(Z[:,1]) )
-    scalarMap= cmx.ScalarMappable(norm=cNorm,cmap=cm)
     
     
-    #
-    for cell in range(21):
-        colorVal=scalarMap.to_rgba( Z[cell,1] )
-        plt.scatter(math.log(-p[cell,2],2), p[cell,0], color = colorVal)
-    plt.xlim(-2,4)
-    plt.ylim(0,1.05)
-    plt.vlines(0, 0, 1.05, linestyle = '--', color = 'grey', lw = 0.7)
-    plt.hlines(0.5,-2,4,linestyle = '--', color = 'grey', lw = 0.7)
-    plt.yticks([0, 0.25, 0.5, 0.75, 1.0])
-    plt.ylabel('Proportion GT spikes detected', fontweight = 'bold')
-    plt.xlabel('Log2-FC Spike amplitude / 7xMAD Threshold', fontweight = 'bold')
-    plt.savefig('E:/repos/sc.io/Paired Recordings/New main figures/Fig 5/Detectability summary.png')
-    plt.close()
-            
+    
     #%%
     #central_chan = int(npx_chan_peaks[0,0])
     num_rows_side = 7
