@@ -233,6 +233,8 @@ zoomed_histo = [[]] * len(cells_to_analyse)
 #rms = np.empty((len(cells_to_analyse),30), dtype = float)
 #Thr = np.empty((len(cells_to_analyse),30), dtype = float)
 
+=======
+
 #%%Batch Analysis for every cell out of 21 further analysed
 #output_dir = 'C:/Users/Andre Marques-Smith/Dropbox/Paired Recordings biorxiv/repro/fig5/'
 
@@ -282,13 +284,17 @@ for cell in cells_to_analyse[20:21]:
     m = len(patch_v)/float(len(npx_voltage[0,:]))
     patch_spikes_npx = np.asarray([int(patch_spikes[i] / m) for i in range(len(patch_spikes))])
     nc = cells_to_analyse.index(cell)
+
 #%%In Development
+
     dot_prod = np.empty((len(patch_spikes),3), dtype = 'float')
     
     non_spikes = []
     
     rand_times = random.sample(range(30, len(npx_voltage[0])-31), len(patch_spikes))
+
     
+
     chan = central_chan
     
     while len(non_spikes)< len(patch_spikes):
@@ -301,6 +307,7 @@ for cell in cells_to_analyse[20:21]:
         dot_prod[spike,0] = np.dot(unit_vector(npx_sta_array[chan,30:90,spike]), unit_vector(npx_sta_mean[chan, 30:90]))
         dot_prod[spike,1] = np.dot(unit_vector(npx_voltage[chan,non_spikes[spike]-30:non_spikes[spike]+30]), unit_vector(npx_sta_mean[chan, 30:90]))
         dot_prod[spike,2] = np.dot(unit_vector(npx_voltage[chan,rand_times[spike]-30:rand_times[spike]+30]), unit_vector(npx_sta_mean[chan, 30:90]))
+
     #
     weights = np.ones_like(dot_prod[:,0])/float(len(dot_prod[:,0]))
     plt.hist(dot_prod[:,0], bins = np.arange(-1,1.02,0.02),  weights = weights, alpha = 0.5, color = 'b')    #alpha = 0.5, color = 'b',
