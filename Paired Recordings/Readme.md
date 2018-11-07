@@ -2,7 +2,7 @@
 
 This is the companion repository to our preprint where we describe experiments recording from the same cortical neuron *in vivo* using [Neuropixel probes](https://www.nature.com/articles/nature24636) and patch-clamp:
 
-**Marques-Smith, A., Neto, J.P., Lopes, G., Nogueira, J., Calcaterra, L., Frazão, J., Kim, D., Phillips, M., Dimitriadis, G., Kampff, A.R. (xx July 2018)** *Recording from the same neuron with high-density CMOS probes and patch-clamp: a ground-truth dataset and an experiment in collaboration.*  
+**Marques-Smith, A., Neto, J.P., Lopes, G., Nogueira, J., Calcaterra, L., Frazão, J., Kim, D., Phillips, M., Dimitriadis, G., Kampff, A.R.** (2018). *Recording from the same neuron with high-density CMOS probes and patch-clamp: a ground-truth dataset and an experiment in collaboration.*  
 bioRxiv 370080; doi: https://doi.org/10.1101/370080
 
 
@@ -16,7 +16,7 @@ In this repository you will find:
 Code in this repository is shared under the [MIT licence](https://opensource.org/licenses/mit-license.php).
 
 All the data we shared is free for you to use under the licensing conditions of [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).    We ask that you cite both:
-- **The original publication describing the dataset:** Marques-Smith, A., Neto, J.P., Lopes, G., Nogueira, J., Calcaterra, L., Frazão, J., Kim, D., Phillips, M., Dimitriadis, G., Kampff, A.R. (xx July 2018). *Recording from the same neuron with high-density CMOS probes and patch-clamp: a ground-truth dataset and an experiment in collaboration.* bioRxiv 370080; doi: https://doi.org/10.1101/370080
+- **The original publication describing the dataset:** Marques-Smith, A., Neto, J.P., Lopes, G., Nogueira, J., Calcaterra, L., Frazão, J., Kim, D., Phillips, M., Dimitriadis, G., Kampff, A.R. (2018). *Recording from the same neuron with high-density CMOS probes and patch-clamp: a ground-truth dataset and an experiment in collaboration.* bioRxiv 370080; doi: https://doi.org/10.1101/370080
 - **The dataset itself:** André Marques-Smith, Joana P. Neto, Gonçalo Lopes, Joana Nogueira, Lorenza Calcaterra, João Frazão, Danbee Kim, Matthew G. Phillips, George Dimitriadis and Adam R. Kampff (2018); Simultaneous patch-clamp and dense CMOS probe extracellular recordings from the same cortical neuron in anaesthetized rats. CRCNS.org
 http://dx.doi.org/10.6080/K0J67F4T
 
