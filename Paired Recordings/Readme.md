@@ -75,7 +75,7 @@ npx_channels = 384
 
 npx_recording = np.memmap( npx_path, mode = 'r', dtype=np.int16, order = 'C')
 
-npx_samples = len(npx_recording)/npx_channels
+npx_samples = int(len(npx_recording)/npx_channels)
 
 npx_recording = npx_recording.reshape((npx_channels, npx_samples), order = 'F')
 ```
