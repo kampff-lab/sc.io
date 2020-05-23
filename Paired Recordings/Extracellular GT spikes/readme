@@ -1,1 +1,1 @@
-These are the samples (Neuropixel sample rate) for extracellular ground-truth spikes. Files are provided as 1D numpy arrays.
+For now please don't use these values as for some cells there may be a ~2% offset in the correct index versus the one presented here. 
