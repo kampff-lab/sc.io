@@ -1,1 +1,2 @@
-For now please don't use these values as for some cells there may be a ~2% offset in the correct index versus the one presented here. 
+The values previously uploaded here wer taken down, as for a minority of cells there was a ~2% offset in the correct index versus the one presented here. 
+Thank you to Samuel Garcia for spotting this. For now, please compute your own spike detection function for the patch-clamp channel (or use our own, or the one kindly provided by Sam Garcia [here](https://github.com/kampff-lab/sc.io/issues/14)) and then convert the spike peak index from the patch sampling rate onto neuropixel sampling rate as shown [in the readme](https://github.com/kampff-lab/sc.io/tree/master/Paired%20Recordings#time-base-and-sampling-rate).
