@@ -97,9 +97,7 @@ patch_recording = np.fromfile(patch_path, dtype='float64')
 ```
 
 ### Time-base and sampling rate
-The Neuropixel and patch-clamp recordings provided are temporally-aligned. This was done by generating periodic digital pulses, which were recorded on the Neuropixel and patch-clamp sync channels (respectively, cxx_npx_sync.bin and cxx_patch_sync.bin; see Marques-Smith et al., 2018, for detail).
-
-Sampling rate for acquisition was **different** for the two data streams. Refer to the preprint and Data Summary for more detail.
+The Neuropixel and patch-clamp recordings provided are temporally-aligned. This was done by generating periodic digital pulses, which were recorded on the Neuropixel and patch-clamp sync channels (respectively, cxx_npx_sync.bin and cxx_patch_sync.bin; see Marques-Smith et al., 2018, for detail). Neuropixels signals were acquired at 30 kHz and patch signals at 50.023 kHz. Due to software issues there was some minor variation in exact sampling rate (see [Data Summary](https://github.com/kampff-lab/sc.io/blob/master/Paired%20Recordings/Preprint%20Code/Data%20Summary.xlsx)) between recordings for the patch clamp signal.
 
 To relate patch-clamp and extracellular events, you should obtain the conversion factor (m) that allows you to work out which sample number in Neuropixel corresponds to a sample number in patch-clamp and vice versa. As the two data streams are temporally-aligned, this is simply the ratio between the length (in samples) of the two recordings. In Python, you could do  
 
@@ -108,7 +106,9 @@ m = len(patch_recording)/float( len(npx_recording[0]))
 
 neuropixel_event = int(patch_sample / m)
 patch_event = int(neuropixel_sample * m)
-```
+```  
+
+Importantly, you should obtain this conversion factor **for each patch recording** you look at due to the issue described above.
 
 ### I'd like to look at LFPs.
 Awesome! We have the LFP band (below 300 Hz) recordings for every cell, but these are not yet uploaded. [Drop Andre a line](mailto:andrefmsmith@gmail.com) and he'll send you a download link. Total size for the LFP dataset is ~60 GB and LFP sampling rate is 2.5 KHz. Eventually this will also be added to CRCNS.org.
